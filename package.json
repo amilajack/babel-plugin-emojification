@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-emojification",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Turn all binding identifiers to unicode escaped emoji",
   "repository": "babel-plugins/babel-plugin-emojification",
   "license": "MIT",
