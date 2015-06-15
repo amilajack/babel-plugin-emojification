@@ -53,35 +53,35 @@ function escape(name) {
   return "\\u{" + name.codePointAt(0) + "}";
 }
 
-module.exports = function (babel) {
-  var t = babel.types;
+function toEmoji(name, map) {
+  if (escapedEmojis.indexOf(name) >= 0) return name;
 
-  function toEmoji(name, map) {
-    if (escapedEmojis.indexOf(name) >= 0) return name;
-
-    var total = sum(name);
-    var index = Math.floor(total / emojis.length);
-    while (true) {
-      var emoji = emojis[index];
-      if (map[emoji] && map[emoji] !== name) {
-        index++;
-        if (index === emojis.length) index = 0;
-      } else {
-        map[emoji] = name;
-        return escape(emoji);
-      }
+  var total = sum(name);
+  var index = Math.floor(total / emojis.length);
+  while (true) {
+    var emoji = emojis[index];
+    if (map[emoji] && map[emoji] !== name) {
+      index++;
+      if (index === emojis.length) index = 0;
+    } else {
+      map[emoji] = name;
+      return escape(emoji);
     }
   }
+}
 
-  return new babel.Transformer("emojification", {
-    Program: function (node, parent, scope, file) {
-      file.set("emojificationMap", {});
-    },
+export default function ({ Plugin, types: t }) {
+  return new Plugin("emojification", {
+    visitor: {
+      Program(node, parent, scope, file) {
+        file.set("emojificationMap", {});
+      },
 
-    Scopable: function (node, parent, scope, file) {
-      for (var name in this.scope.bindings) {
-        this.scope.rename(name, toEmoji(name, file.get("emojificationMap")));
+      Scopable(node, parent, scope, file) {
+        for (var name in this.scope.bindings) {
+          this.scope.rename(name, toEmoji(name, file.get("emojificationMap")));
+        }
       }
     }
   });
-};
+}

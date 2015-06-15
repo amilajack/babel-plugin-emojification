@@ -1,15 +1,19 @@
 {
   "name": "babel-plugin-emojification",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "author": "",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/babel-plugins/babel-plugin-emojification.git"
+  "description": "Turn all binding identifiers to unicode escaped emoji",
+  "repository": "babel-plugins/babel-plugin-emojification",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "devDependencies": {
+    "babel": "^5.6.0"
   },
-  "bugs": {
-    "url": "https://github.com/babel-plugins/babel-plugin-emojification/issues"
+  "scripts": {
+    "build": "babel-plugin build",
+    "push": "babel-plugin publish",
+    "test": "babel-plugin test"
   },
+  "keywords": [
+    "babel-plugin"
+  ]
 }
